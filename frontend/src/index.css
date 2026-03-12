@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.transition-smooth {
+  transition: all 0.2s ease-in-out;
+}
