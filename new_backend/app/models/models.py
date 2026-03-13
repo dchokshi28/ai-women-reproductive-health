@@ -18,6 +18,19 @@ class User(Base):
     
     cycles = relationship("Cycle", back_populates="user")
     quiz_results = relationship("QuizResult", back_populates="user")
+    health_info = relationship("HealthInfo", back_populates="user", uselist=False)
+
+
+class HealthInfo(Base):
+    __tablename__ = "health_info"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), unique=True)
+    data = Column(Text, default="{}")
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    user = relationship("User", back_populates="health_info")
 
 class Cycle(Base):
     __tablename__ = "cycles"

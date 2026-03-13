@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { Calendar, Activity, AlertCircle, TrendingUp, BookOpen, MessageCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Bell } from "lucide-react";
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -50,7 +51,7 @@ const Dashboard = () => {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-gray-800">Hello, {user?.name || 'User'}! 👋</h1>
-          <p className="text-gray-500 mt-1">Here is your daily reproductive health overview.</p>
+          <p className="text-gray-500 mt-1">Here is your daily health overview.</p>
         </div>
         <button 
           onClick={() => navigate('/log-cycle')}
@@ -148,6 +149,14 @@ const Dashboard = () => {
           </div>
           <span className="font-semibold text-gray-800">Community Chat</span>
           <span className="text-sm text-gray-500 mt-1">Connect with others</span>
+        </button>
+
+        <button onClick={() => navigate('/chat')} className="bg-white p-5 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-300 border border-transparent transition-smooth flex flex-col items-center justify-center text-center group">
+          <div className="bg-blue-100 p-3 rounded-full mb-3 group-hover:scale-110 transition-transform w-fit">
+  <Bell className="w-6 h-6 text-blue-600" />
+</div>
+          <span className="font-semibold text-gray-800">Notifications</span>
+          <span className="text-sm text-gray-500 mt-1">Get your health insights</span>
         </button>
       </div>
 

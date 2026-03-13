@@ -67,6 +67,20 @@ class PredictionResponse(BaseModel):
     recommendation: str
     confidence: Optional[float] = None
 
+class HealthInfo(BaseModel):
+    age: Optional[int]
+    height: Optional[float]
+    weight: Optional[float]
+    bmi: Optional[float]
+    cycleLength: Optional[int]
+    periodDuration: Optional[int]
+    menarcheAge: Optional[int]
+    stressLevel: Optional[str]
+    sleepHours: Optional[float]
+    exerciseFrequency: Optional[str]
+    conditions: Optional[dict]
+    goal: Optional[str]
+
 class PostResponse(BaseModel):
     id: int
     doctor_name: str
