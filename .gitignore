@@ -4,12 +4,35 @@ __pycache__/
 *$py.class
 *.so
 .Python
-env/
+
+# Virtual environments
 venv/
+env/
 ENV/
+
+# Packaging
 *.egg-info/
+
 dist/
 build/
+.vite/
+
+# Environment variables
+.env
+.env.local
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# ML models
+*.pkl
+*.h5
+*.model
+
+# Firebase
+firebase-credentials.json
 
 # Node
 node_modules/
@@ -29,18 +52,6 @@ yarn-error.log*
 .DS_Store
 Thumbs.db
 
-# Environment variables
-.env
-.env.local
-
-# Build outputs
-frontend/dist/
-frontend/build/
-
-# ML Models (optional - uncomment if you don't want to track models)
-# *.pkl
-
-# Database
-*.db
-*.sqlite
-*.sqlite3
+# Logs
+*.log
+logs/
