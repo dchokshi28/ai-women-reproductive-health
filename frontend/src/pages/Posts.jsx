@@ -2,79 +2,87 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Heart, MessageCircle, Share2, BadgeCheck } from 'lucide-react';
 
+const C = { accent:'#E87A9A', soft:'#FFDDE2', primary:'#F7CAD0', border:'#EED9DE', text:'#3A3A3A', sub:'#5A5052', muted:'#8C7A7F' };
+
 const Posts = () => {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts]     = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios.get('http://localhost:5000/api/posts')
-      .then(res => {
-        setPosts(res.data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Error fetching posts:", err);
-        setLoading(false);
-      });
+      .then(res  => { setPosts(res.data); setLoading(false); })
+      .catch(()  => { setLoading(false); });
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-deep-pink"></div>
-      </div>
-    );
-  }
+  if (loading) return (
+    <div className="flex justify-center items-center h-64">
+      <div className="dot-loader"><span /><span /><span /></div>
+    </div>
+  );
 
   return (
-    <div className="max-w-3xl mx-auto p-4 md:p-8 animate-fade-in space-y-6">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">Verified Health Feed</h1>
-        <p className="text-gray-500 mt-2">Expert advice and awareness from certified gynecologists.</p>
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-7 animate-fade-in">
+      <div className="mb-6 pb-5" style={{ borderBottom: `1px solid ${C.border}` }}>
+        <h1 className="text-2xl font-bold" style={{ color: C.text, fontFamily: 'Poppins, sans-serif' }}>
+          Verified Health Feed
+        </h1>
+        <p className="text-sm mt-1" style={{ color: C.muted }}>
+          Expert advice and awareness from certified gynecologists.
+        </p>
       </div>
 
       {posts.length === 0 ? (
-        <div className="text-center text-gray-500 py-12">Failed to load posts or no posts available.</div>
+        <div className="bg-white rounded-[18px] border p-12 text-center shadow-sm" style={{ borderColor: C.border }}>
+          <p className="text-sm" style={{ color: C.muted }}>No posts available right now. Check back soon.</p>
+        </div>
       ) : (
-        posts.map(post => (
-          <div key={post.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-smooth">
-            <div className="p-6">
-              
-              <div className="flex items-center gap-4 mb-4">
-                <img 
-                  src={post.profileImage} 
-                  alt={post.doctorName} 
-                  className="w-12 h-12 rounded-full object-cover border-2 border-soft-pink"
-                />
-                <div>
-                  <h3 className="font-semibold text-gray-800 flex items-center gap-1">
-                    {post.doctorName}
-                    {post.verified && <BadgeCheck className="w-5 h-5 text-blue-500" />}
-                  </h3>
-                  <span className="text-xs text-gray-500">Gynecologist & Health Expert</span>
+        <div className="space-y-4">
+          {posts.map(post => (
+            <div key={post.id} className="bg-white rounded-[18px] border shadow-sm overflow-hidden tile-hover"
+                 style={{ borderColor: C.border }}>
+              <div className="p-5">
+                <div className="flex items-center gap-3 mb-4">
+                  <img src={post.profileImage} alt={post.doctorName}
+                       className="w-10 h-10 rounded-full object-cover border-2"
+                       style={{ borderColor: C.primary }} />
+                  <div>
+                    <h3 className="text-sm font-semibold flex items-center gap-1.5" style={{ color: C.text }}>
+                      {post.doctorName}
+                      {post.verified && <BadgeCheck className="w-4 h-4" style={{ color: C.accent }} />}
+                    </h3>
+                    <span className="text-xs" style={{ color: C.muted }}>Gynecologist & Health Expert</span>
+                  </div>
+                </div>
+
+                <h4 className="text-base font-semibold mb-2" style={{ color: C.text }}>{post.title}</h4>
+                <p className="text-sm leading-relaxed" style={{ color: C.sub }}>{post.content}</p>
+
+                <div className="flex items-center gap-5 mt-4 pt-4" style={{ borderTop: `1px solid ${C.border}` }}>
+                  <button className="flex items-center gap-1.5 text-sm transition-smooth"
+                          style={{ color: C.muted }}
+                          onMouseEnter={e => e.currentTarget.style.color = C.accent}
+                          onMouseLeave={e => e.currentTarget.style.color = C.muted}>
+                    <Heart className="w-4 h-4" />
+                    <span className="font-medium">{post.likes}</span>
+                  </button>
+                  <button className="flex items-center gap-1.5 text-sm transition-smooth"
+                          style={{ color: C.muted }}
+                          onMouseEnter={e => e.currentTarget.style.color = C.accent}
+                          onMouseLeave={e => e.currentTarget.style.color = C.muted}>
+                    <MessageCircle className="w-4 h-4" />
+                    <span className="font-medium">{post.comments}</span>
+                  </button>
+                  <button className="flex items-center gap-1.5 text-sm transition-smooth ml-auto"
+                          style={{ color: C.muted }}
+                          onMouseEnter={e => e.currentTarget.style.color = C.accent}
+                          onMouseLeave={e => e.currentTarget.style.color = C.muted}>
+                    <Share2 className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
-
-              <h4 className="text-xl font-bold text-gray-800 mb-2">{post.title}</h4>
-              <p className="text-gray-600 leading-relaxed mb-6">{post.content}</p>
-
-              <div className="flex items-center gap-6 pt-4 border-t border-gray-50">
-                <button className="flex items-center gap-2 text-gray-500 hover:text-deep-pink transition-colors group">
-                  <Heart className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                  <span className="font-medium">{post.likes}</span>
-                </button>
-                <button className="flex items-center gap-2 text-gray-500 hover:text-blue-500 transition-colors group">
-                  <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                  <span className="font-medium">{post.comments}</span>
-                </button>
-                <button className="flex items-center gap-2 text-gray-500 hover:text-green-500 transition-colors group ml-auto">
-                  <Share2 className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                </button>
-              </div>
-
             </div>
-          </div>
-        ))
+          ))}
+        </div>
       )}
     </div>
   );

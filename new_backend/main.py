@@ -11,7 +11,7 @@ from app.routes.dependencies import get_current_user
 # Create database tables
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(
+app = FastAPI(   
     title="HerHealth AI API",
     description="Women's Health Tracking API with AI-powered insights",
     version="2.0.0"

@@ -6,9 +6,7 @@ const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
+  useEffect(() => { fetchPosts(); }, []);
 
   const fetchPosts = async () => {
     try {
@@ -23,58 +21,68 @@ const Posts = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-deep-pink"></div>
+      <div className="flex justify-center items-center h-screen app-bg">
+        <div className="dot-loader flex gap-2"><span /><span /><span /></div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-4 md:p-8 animate-fade-in space-y-6">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">Verified Health Feed</h1>
-        <p className="text-gray-500 mt-2">Expert advice and awareness from certified gynecologists.</p>
+    <div className="max-w-3xl mx-auto p-4 md:p-8 animate-fade-in space-y-5">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold" style={{ fontFamily: 'Poppins, sans-serif', color: '#3A3A3A' }}>
+          Verified Health Feed
+        </h1>
+        <p className="text-sm mt-1" style={{ color: '#9A6B7A' }}>Expert advice from certified gynecologists.</p>
       </div>
 
       {posts.length === 0 ? (
-        <div className="text-center text-gray-500 py-12">No posts available.</div>
+        <div className="text-center py-12" style={{ color: '#9A6B7A' }}>No posts available.</div>
       ) : (
         posts.map(post => (
-          <div key={post.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-smooth">
+          <div key={post.id} className="bg-white rounded-2xl border border-[#FFCAD4] overflow-hidden shadow-sm transition-smooth hover:shadow-md hover:border-[#FF9AA2]">
             <div className="p-6">
-              
               <div className="flex items-center gap-4 mb-4">
-                <img 
-                  src={post.profile_image || post.profileImage} 
-                  alt={post.doctor_name || post.doctorName} 
-                  className="w-12 h-12 rounded-full object-cover border-2 border-soft-pink"
+                <img
+                  src={post.profile_image || post.profileImage}
+                  alt={post.doctor_name || post.doctorName}
+                  className="w-12 h-12 rounded-full object-cover border-2"
+                  style={{ borderColor: '#FFCAD4' }}
                 />
                 <div>
-                  <h3 className="font-semibold text-gray-800 flex items-center gap-1">
+                  <h3 className="font-semibold flex items-center gap-1.5" style={{ color: '#3A3A3A' }}>
                     {post.doctor_name || post.doctorName}
-                    {post.verified && <BadgeCheck className="w-5 h-5 text-blue-500" />}
+                    {post.verified && <BadgeCheck className="w-4 h-4" style={{ color: '#C94F7C' }} />}
                   </h3>
-                  <span className="text-xs text-gray-500">Gynecologist & Health Expert</span>
+                  <span className="text-xs" style={{ color: '#9A6B7A' }}>Gynecologist & Health Expert</span>
                 </div>
               </div>
 
-              <h4 className="text-xl font-bold text-gray-800 mb-2">{post.title}</h4>
-              <p className="text-gray-600 leading-relaxed mb-6">{post.content}</p>
+              <h4 className="text-lg font-bold mb-2" style={{ color: '#3A3A3A' }}>{post.title}</h4>
+              <p className="text-sm leading-relaxed mb-5" style={{ color: '#9A6B7A' }}>{post.content}</p>
 
-              <div className="flex items-center gap-6 pt-4 border-t border-gray-50">
-                <button className="flex items-center gap-2 text-gray-500 hover:text-deep-pink transition-colors group">
-                  <Heart className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                  <span className="font-medium">{post.likes}</span>
+              <div className="flex items-center gap-5 pt-4 border-t" style={{ borderColor: '#FFCAD4' }}>
+                <button className="flex items-center gap-1.5 text-sm font-medium transition-smooth group"
+                        style={{ color: '#9A6B7A' }}
+                        onMouseEnter={e => e.currentTarget.style.color = '#C94F7C'}
+                        onMouseLeave={e => e.currentTarget.style.color = '#9A6B7A'}>
+                  <Heart className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                  {post.likes}
                 </button>
-                <button className="flex items-center gap-2 text-gray-500 hover:text-blue-500 transition-colors group">
-                  <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                  <span className="font-medium">{post.comments}</span>
+                <button className="flex items-center gap-1.5 text-sm font-medium transition-smooth group"
+                        style={{ color: '#9A6B7A' }}
+                        onMouseEnter={e => e.currentTarget.style.color = '#FF9AA2'}
+                        onMouseLeave={e => e.currentTarget.style.color = '#9A6B7A'}>
+                  <MessageCircle className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                  {post.comments}
                 </button>
-                <button className="flex items-center gap-2 text-gray-500 hover:text-green-500 transition-colors group ml-auto">
-                  <Share2 className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <button className="flex items-center gap-1.5 text-sm font-medium transition-smooth ml-auto"
+                        style={{ color: '#9A6B7A' }}
+                        onMouseEnter={e => e.currentTarget.style.color = '#C94F7C'}
+                        onMouseLeave={e => e.currentTarget.style.color = '#9A6B7A'}>
+                  <Share2 className="w-4 h-4" />
                 </button>
               </div>
-
             </div>
           </div>
         ))
